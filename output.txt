@@ -1,0 +1,15 @@
+/home/me/Desktop/Project1
+.. . 
+/home/me/Desktop/Project1/test
+/home/me/Desktop/Project1/test
+Error something went wrong with dest
+.. . 
+Error reading file
+Error moving file
+/home/me/Desktop/Project1/test
+.. . 
+Error deleting file
+.. . 
+/home/me/Desktop/Project1
+Makefile command.c Screenshots README.txt string_parser.c .. pseudo-shell command.h . test string_parser.h output.txt main.c input.txt 
+Error! Unrecognized command: sfjlksagjlks
