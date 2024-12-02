@@ -56,46 +56,32 @@ void process_transaction(account* accounts, int account_count, char* transaction
 		exit(1);
 	}
 
-	switch (type) {
-	    case 'T':  // Transfer
-	    {
-	        if (sscanf(transaction + strlen(transaction), "%99s %lf", dest_account, &amount) != 2) {
-	            fprintf(st:wderr, "Invalid transfer transaction: %s\n", transaction);
-	            return;
-	        }
-	        account* dest_account_ptr = find_account(accounts, account_count, dest_account);
-	        if (!dest_account_ptr) {
-	            fprintf(stderr, "Destination account not found: %s\n", dest_account);
-	            return;
-	        }
-	        if (account->balance < amount) {
-	            fprintf(stderr, "Insufficient balance for transfer: %s\n", account_number);
-	            return;
-	        }
-	        account->balance -= amount;
-	        dest_account_ptr->balance += amount;
-	        break;
-	    }
-	    case 'D':  // Deposit
-	        if (amount <= 0) {
-	            fprintf(stderr, "Invalid deposit amount\n");
-	            return;
-	        }
-	        account->balance += amount;
-	        break;
-	    case 'W':  // Withdrawal
-	        if (amount <= 0 || account->balance < amount) {
-	            fprintf(stderr, "Invalid withdrawal attempt\n");
-	            return;
-	        }
-	        account->balance -= amount;
-	        break;
-	    case 'C':  // Check balance
-	        printf("%s balance: %.2lf\n", account_number, account->balance);
-	        return;
-	    default:
-	        fprintf(stderr, "Unknown transaction type: %c\n", type);
-	        return;
+	if (type == 'T') {
+		sscanf(transaction + strlen(transaction), "%s %lf", dest_account, &amount);
+
+		account* dest_account_ptr = NULL;
+
+		dest_account_ptr = find_account(accounts, account_count, dest_account);
+
+		if(!dest_account_ptr) {
+			printf("Destination account %s not found\n", dest_account);
+			exit(1);
+		}
+
+		account->balance -= amount;
+		dest_account_ptr->balance += amount;
+		account->transaction_tracter++;
+		dest_account_ptr->transaction_tracter++;
+	} else if (type == 'D') {
+		sscanf(transaction + strlen(transaction), "%lf", &amount);
+		account->balance += amount;
+		account->transaction_tracter++;
+	} else if (type == 'W') {
+		sscanf(transaction + strlen(transaction), "%lf", &amount);
+		account->balance -= amount;
+		account->transaction_tracter++;
+	} else if (type == 'C') {
+		printf("%s balance; %.2lf\n", account_number, account->balance);
 	}
 }
 
