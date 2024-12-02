@@ -1,3 +1,16 @@
-D 123456 password 100
-W 123456 password 50
+2
+0
+123456
+password
+1000.00
+0.02
+1
+654321
+pass123
+2000.00
+0.03
+D 123456 password 100.00
+W 123456 password 50.00
+T 123456 password 654321 200.00
 C 123456 password
+C 654321 pass123
