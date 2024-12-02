@@ -28,6 +28,15 @@ account* read(char* filename, int* account_count) {
 	return accounts;
 }
 
+account* find_account(account* accounts, int account_count, char* account_number) {
+	for (int i=0; i < account_count; i++) {
+		if (strcmp(accounts[i].account_number, account_number) == 0) {
+			return &accounts[i];
+		}
+	}
+	return NULL;
+}
+
 void process_transaction(account* accounts, int account_count, char* transaction) {
 	char type;
 	char account_number[100], password[100], dest_account[100];
@@ -72,15 +81,6 @@ void process_transaction(account* accounts, int account_count, char* transaction
 	} else if (type == 'C') {
 		printf("%s balance; %.2lf\n", account_number, account->balance);
 	}
-}
-
-account* find_account(account* accounts, int account_count, const char* account_number) {
-	for (int i=0; i < account_count; i++) {
-		if (strcmp(accounts[i].account_number, account_number) == 0) {
-			return &accounts[i];
-		}
-	}
-	return NULL;
 }
 
 void print_balances(account* accounts, int account_count) {
