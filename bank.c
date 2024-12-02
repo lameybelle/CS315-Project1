@@ -41,8 +41,10 @@ void process_transaction(account* accounts, int account_count, char* transaction
 	char type;
 	char account_number[100], password[100], dest_account[100];
 	double amount;
+	account* dest_account_ptr;
 
 	sscanf(transaction, "%c %s %s", &type, account_number, password);
+	printf("Type: %s, account Number %s\n", &type, account_number);
 
 	account* account = find_account(accounts, account_count, account_number);
 
@@ -57,9 +59,8 @@ void process_transaction(account* accounts, int account_count, char* transaction
 	}
 
 	if (type == 'T') {
+		printf("T\n");
 		sscanf(transaction + strlen(transaction), "%s %lf", dest_account, &amount);
-
-		account* dest_account_ptr = NULL;
 
 		dest_account_ptr = find_account(accounts, account_count, dest_account);
 
@@ -73,15 +74,19 @@ void process_transaction(account* accounts, int account_count, char* transaction
 		account->transaction_tracter++;
 		dest_account_ptr->transaction_tracter++;
 	} else if (type == 'D') {
+		printf("D\n");
 		sscanf(transaction + strlen(transaction), "%lf", &amount);
 		account->balance += amount;
 		account->transaction_tracter++;
 	} else if (type == 'W') {
+		printf("W\n");
 		sscanf(transaction + strlen(transaction), "%lf", &amount);
 		account->balance -= amount;
 		account->transaction_tracter++;
 	} else if (type == 'C') {
 		printf("%s balance; %.2lf\n", account_number, account->balance);
+	} else {
+		printf("no typei\n");
 	}
 }
 
@@ -98,9 +103,11 @@ int main(int argc, char* argv[]) {
 	}
 
 	int account_count;
+	printf("reading file\n");
 	account* accounts = read(argv[1], &account_count);
 
 	char transaction[MAX_TRANSACTION_LEN];
+	printf("starting transactions\n");
 	while (fgets(transaction, MAX_TRANSACTION_LEN, stdin) != NULL) {
 		process_transaction(accounts, account_count, transaction);
 	}
